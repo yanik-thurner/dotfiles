@@ -1,0 +1,26 @@
+# The `.gitignore` file can be debugged with `git check-ignore -v path/to/ignored/file`
+
+# Ignore everything in the home dir (make exceptions with `!` prefix)
+/* 
+
+#===============#
+#== Git Stuff ==#
+#===============#
+!/.gitignore
+
+
+#===============#
+#=== Configs ===#
+#===============#
+
+!/.bashrc.d
+!/.bashrc.d/*
+
+!/.config
+/.config/*
+
+!/.config/nvim
+!/.config/fish
+
+!/.vimrc
+

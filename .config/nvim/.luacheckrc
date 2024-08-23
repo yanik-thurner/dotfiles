@@ -1,0 +1,1 @@
+-- This file is needed because `lua_ls` will otherwise set the nearest `.git` directory as root folder.
