@@ -38,7 +38,7 @@ require('lazy').setup {
         requires = { 'nvim-lua/plenary.nvim', 'nvim-telescope/telescope-fzf-native.nvim' }
     },
     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
-    { 'nvim-lualine/lualine.nvim', requires = { 'nvim-tree/nvim-web-devicons' } }
+    { 'nvim-lualine/lualine.nvim',                requires = { 'nvim-tree/nvim-web-devicons' } }
 }
 
 
@@ -51,7 +51,7 @@ require('nvim-treesitter.install').update({ with_sync = true })()
 require('nvim-treesitter.configs').setup {
     ensure_installed = {
         -- programming
---        'comment',
+        --        'comment',
         -- scripting
         'bash',
         'lua',
@@ -71,7 +71,7 @@ vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 require('telescope').setup()
 require('telescope').load_extension('fzf')
 
-require('reactive').setup{
+require('reactive').setup {
     builtin = {
         cursorline = true,
         cursor = true,
@@ -81,9 +81,9 @@ require('reactive').setup{
 require('lualine').setup {}
 
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>tb', builtin.buffers, {})
-vim.keymap.set('n', '<leader>tf', builtin.find_files, {})
-vim.keymap.set('n', '<leader>tg', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>th', builtin.help_tags, {})
-vim.keymap.set('n', '<leader>tj', builtin.jumplist, {})
-vim.keymap.set('n', '<leader>tk', builtin.keymaps, {})
+vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+vim.keymap.set('n', '<leader>fj', builtin.jumplist, {})
+vim.keymap.set('n', '<leader>fk', builtin.keymaps, {})
