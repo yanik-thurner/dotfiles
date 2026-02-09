@@ -12,8 +12,8 @@ pane_h=$(tmux display -p '#{pane_height}')
 tmux capture-pane -e -p -S - -E - > "$file"
 total=$(wc -l < "$file")
 
-tmux popup -E -B -x P -y P -w "$pane_w" -h "$pane_h" \
+tmux popup -s 'default' -E -B -x P -y P -w "$pane_w" -h "$pane_h" \
   env COPY_LINE="$line" COPY_COL="$col" COPY_FILE="$file" COPY_TOTAL="$total" \
-  nvim -u ~/.config/nvim/copy-mode.lua --cmd 'set lazyredraw'
+  nvim --clean --noplugin -u ~/.config/nvim/copy-mode.lua --cmd 'set lazyredraw'
 
 rm -f "$file"

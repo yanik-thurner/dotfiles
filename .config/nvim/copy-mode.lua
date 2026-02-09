@@ -86,12 +86,11 @@ vim.api.nvim_create_autocmd('VimEnter', {
         timer:stop()
         timer:close()
 
-        vim.api.nvim_win_set_buf(0, buf)
-        vim.bo[buf].modifiable = false
-        vim.opt_local.number = true
-        vim.opt_local.relativenumber = true
-
         vim.defer_fn(function()
+          vim.api.nvim_win_set_buf(0, buf)
+          vim.bo[buf].modifiable = false
+          vim.opt_local.number = true
+          vim.opt_local.relativenumber = true
           pcall(vim.api.nvim_win_set_cursor, 0, { line, col })
           vim.cmd 'redraw!'
         end, 10)
