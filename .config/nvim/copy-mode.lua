@@ -69,24 +69,20 @@ vim.api.nvim_create_autocmd('VimEnter', {
     local raw = f:read('*a'):gsub('\n$', '')
     f:close()
 
-    local expected = 1
-    for _ in raw:gmatch '\n' do
-      expected = expected + 1
-    end
-
     local buf = vim.api.nvim_create_buf(false, true)
     local chan = vim.api.nvim_open_term(buf, {})
+    local line = tonumber(vim.env.COPY_LINE) or 1
+    local col = tonumber(vim.env.COPY_COL) or 0
+    local total = tonumber(vim.env.COPY_TOTAL) or 1
     vim.api.nvim_chan_send(chan, raw)
 
-    local row = tonumber(vim.env.COPY_LINE) or 1
-    local col = tonumber(vim.env.COPY_COL) or 0
-
+    -- timer because buffer is asyncron and cursor setting fails otherwise
     local timer = vim.uv.new_timer()
     timer:start(
       0,
       2,
       vim.schedule_wrap(function()
-        if vim.api.nvim_buf_line_count(buf) < expected then return end
+        if vim.api.nvim_buf_line_count(buf) < total then return end
         timer:stop()
         timer:close()
 
@@ -94,9 +90,11 @@ vim.api.nvim_create_autocmd('VimEnter', {
         vim.bo[buf].modifiable = false
         vim.opt_local.number = true
         vim.opt_local.relativenumber = true
-        vim.api.nvim_win_set_cursor(0, { row, col })
-        vim.cmd 'redraw!'
-        if col > 0 then vim.api.nvim_feedkeys(col .. '|', 'nx', false) end
+
+        vim.defer_fn(function()
+          pcall(vim.api.nvim_win_set_cursor, 0, { line, col })
+          vim.cmd 'redraw!'
+        end, 10)
       end)
     )
   end,
