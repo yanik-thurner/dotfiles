@@ -10,6 +10,9 @@
 !/.config/
 !/.config/fish/
 !/.config/fish/**
+!/.config/nvim/
+!/.config/nvim/copy-mode.lua
+!/.config/nvim/init.lua
 !/.config/tmux/
 !/.config/tmux/**
 /.config/tmux/plugins/
