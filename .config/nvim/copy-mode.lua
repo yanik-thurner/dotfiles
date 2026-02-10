@@ -1,4 +1,7 @@
 -- ~/.config/nvim/copy-mode.lua
+--
+vim.opt.runtimepath:append(vim.fn.stdpath 'data' .. '/lazy/baleia.nvim')
+vim.g.baleia = require('baleia').setup {}
 
 vim.cmd 'hi Normal ctermbg=NONE'
 
@@ -23,6 +26,13 @@ for _, key in ipairs { 'a', 'A', 'i', 'I', 'o', 'O', 'R', 'c', 'C', 's', 'S', 'd
 end
 
 vim.api.nvim_create_autocmd('TextYankPost', {
+  desc = 'Highlight when yanking (copying) text',
+  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+  callback = function() vim.hl.on_yank() end,
+})
+
+vim.api.nvim_create_autocmd('TextYankPost', {
+  desc = 'Pipe yanked text into clipboard(s)',
   callback = function()
     local text = table.concat(vim.v.event.regcontents, '\n')
     vim.fn.jobstart({ 'wl-copy', '--', text }, { detach = true })
@@ -35,6 +45,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 vim.opt.swapfile = false
 vim.opt.virtualedit = 'onemore'
 vim.opt.wrap = false
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.virtualedit = 'onemore'
 
 -- Search settings
 vim.opt.ignorecase = true
@@ -60,41 +73,16 @@ vim.keymap.set('n', '<C-j>', exit_pane 'D', { silent = true })
 vim.keymap.set('n', '<C-k>', exit_pane 'U', { silent = true })
 vim.keymap.set('n', '<C-l>', exit_pane 'R', { silent = true })
 
-vim.api.nvim_create_autocmd('VimEnter', {
+vim.api.nvim_create_autocmd('BufReadPost', {
+  once = true,
   callback = function()
-    vim.bo[0].buftype = 'nofile'
-    vim.opt.shortmess:append 'I'
-
-    local f = io.open(vim.env.COPY_FILE, 'r')
-    local raw = f:read('*a'):gsub('\n$', '')
-    f:close()
-
-    local buf = vim.api.nvim_create_buf(false, true)
-    local chan = vim.api.nvim_open_term(buf, {})
     local line = tonumber(vim.env.COPY_LINE) or 1
     local col = tonumber(vim.env.COPY_COL) or 0
-    local total = tonumber(vim.env.COPY_TOTAL) or 1
-    vim.api.nvim_chan_send(chan, raw)
+    local buf = vim.api.nvim_get_current_buf()
 
-    -- timer because buffer is asyncron and cursor setting fails otherwise
-    local timer = vim.uv.new_timer()
-    timer:start(
-      0,
-      2,
-      vim.schedule_wrap(function()
-        if vim.api.nvim_buf_line_count(buf) < total then return end
-        timer:stop()
-        timer:close()
-
-        vim.defer_fn(function()
-          vim.api.nvim_win_set_buf(0, buf)
-          vim.bo[buf].modifiable = false
-          vim.opt_local.number = true
-          vim.opt_local.relativenumber = true
-          pcall(vim.api.nvim_win_set_cursor, 0, { line, col })
-          vim.cmd 'redraw!'
-        end, 10)
-      end)
-    )
+    vim.bo[buf].buftype = 'nofile'
+    vim.g.baleia = require('baleia').setup {}
+    vim.g.baleia.once(buf)
+    vim.api.nvim_win_set_cursor(0, { line, col })
   end,
 })
