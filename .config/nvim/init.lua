@@ -191,6 +191,16 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 
 -- CUSTOM: reduce delay for esc
 vim.opt.ttimeoutlen = 0
+
+for _, map in ipairs {
+  { '<C-h>', '<Cmd>TmuxNavigateLeft<CR>' },
+  { '<C-j>', '<Cmd>TmuxNavigateDown<CR>' },
+  { '<C-k>', '<Cmd>TmuxNavigateUp<CR>' },
+  { '<C-l>', '<Cmd>TmuxNavigateRight<CR>' },
+} do
+  vim.keymap.set('i', map[1], map[2], { silent = true })
+end
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
