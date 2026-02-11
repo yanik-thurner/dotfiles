@@ -14,14 +14,13 @@ session_info=$(tmux list-sessions -F '#{session_name} #{session_attached}' 2>/de
 session_exists=$([[ -n "$session_info" ]] && echo true || echo false)
 session_used=$([[ -n "$session_info" && "$session_info" != *" 0" ]] && echo true || echo false)
 
-[[ "$has_tmux" == true && "$session_exists" == true && "$session_used" == false ]] && exec tmux attach-session -t "$SESSION"
 
 shell_cmd=($([[ "$has_fish" == true && "$in_fish" == false ]] && echo fish || echo bash))
 
 # some vars are not set in toolbox, so we just start the shell to avoid recursion
 [[ "$in_toolbox" == true ]] && exec "${shell_cmd[@]}"
 
-#[[ "$has_nvim" == true && "$in_nvim" == false ]] && shell_cmd=(nvim -c "terminal $shell_cmd")
+[[ "$has_tmux" == true && "$session_exists" == true && "$session_used" == false ]] && exec tmux attach-session -t "$SESSION"
 [[ "$has_tmux" == true && "$session_exists" == false ]] && shell_cmd=(tmux new-session -s "$SESSION" "${shell_cmd[@]}")
 
 # prevent bash loop, nothing else needs to start
