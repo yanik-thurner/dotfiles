@@ -201,6 +201,23 @@ for _, map in ipairs {
   vim.keymap.set('i', map[1], map[2], { silent = true })
 end
 
+local function replace_op(type)
+  local sel = ({ char = 'v', line = 'V', block = '\22' })[type]
+  vim.cmd.normal { '`[' .. sel .. '`]"_dP', bang = true }
+end
+
+_G._replace_op = replace_op
+
+vim.keymap.set('n', 's', function()
+  vim.o.operatorfunc = 'v:lua._replace_op'
+  return 'g@'
+end, { expr = true, desc = 'Substitude with register' })
+
+vim.keymap.set('n', 'ss', function()
+  vim.o.operatorfunc = 'v:lua._replace_op'
+  return 'g@_'
+end, { expr = true, desc = 'Substitude line with register' })
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.

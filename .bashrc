@@ -31,3 +31,6 @@ if [[ "$is_interactive" == true ]]; then
 fi
 
 unset rc
+
+# opencode
+export PATH=/var/home/jay/.opencode/bin:$PATH
