@@ -17,5 +17,8 @@
 !/.config/tmux/**
 /.config/tmux/plugins/
 
+!/.github/
+!/.github/**
+
 !/.local/
 !/.local/bin/
