@@ -33,4 +33,4 @@ fi
 unset rc
 
 # opencode
-export PATH=/var/home/jay/.opencode/bin:$PATH
+export PATH=$HOME.opencode/bin:$PATH
