@@ -2,6 +2,7 @@
 
 !.gitignore
 !.gitconfig
+!.gitmodules
 !.bashrc
 !.bash_profile
 
@@ -16,7 +17,9 @@
 !/.config/nvim/init.lua
 !/.config/tmux/
 !/.config/tmux/**
-/.config/tmux/plugins/
+!/.config/tmux/plugins/
+/.config/tmux/plugins/*
+!/.config/tmux/plugins/tpm/
 
 !/.github/
 !/.github/**

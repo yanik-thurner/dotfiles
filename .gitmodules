@@ -1,0 +1,9 @@
+[submodule "/var/home/jay/.tmux/plugins/tpm"]
+	path = /var/home/jay/.tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
+[submodule "/var/home/jay/.config/tmux/plugins/tpm/bin/clean_plugins"]
+	path = /var/home/jay/.config/tmux/plugins/tpm/bin/clean_plugins
+	url = https://github.com/tmux-plugins/tpm
+[submodule ".config/tmux/plugins/tpm"]
+	path = .config/tmux/plugins/tpm
+	url = https://github.com/tmux-plugins/tpm
