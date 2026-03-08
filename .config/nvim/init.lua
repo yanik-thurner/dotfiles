@@ -301,7 +301,9 @@ require('lazy').setup({
       'MunifTanjim/nui.nvim',
       'rcarriga/nvim-notify',
     },
-    opts = {},
+    opts = {
+      routes = { { view = 'cmdline', filter = { event = 'msg_showmode' } } },
+    },
   },
   {
     'm4xshen/hardtime.nvim',
