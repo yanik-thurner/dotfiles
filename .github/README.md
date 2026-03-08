@@ -10,5 +10,6 @@ git --git-dir="$HOME/.dotfiles" --work-tree="$HOME" config core.worktree "$HOME"
 git --git-dir="$HOME/.dotfiles" --work-tree="$HOME" config status.showUntrackedFiles no
 git --git-dir="$HOME/.dotfiles" --work-tree="$HOME" config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
 git --git-dir="$HOME/.dotfiles" --work-tree="$HOME" checkout
+git --git-dir="$HOME/.dotfiles" --work-tree="$HOME" branch --set-upstream-to=origin/main main
 source .bashrc
 ```
