@@ -34,3 +34,4 @@ unset rc
 
 # opencode
 export PATH=$HOME.opencode/bin:$PATH
+. "$HOME/.cargo/env"
